@@ -1,5 +1,7 @@
 package me.moderator_man.srv.db;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -22,14 +24,21 @@ public class Database
 		return stmt.execute(statement);
 	}
 	
-	public ResultSet query(String statement) throws SQLException, ClassNotFoundException
+	public Connection grabConnection()
+	{
+		return man.connection();
+	}
+	
+	@Deprecated
+	public ResultSet query(String statement, Object...parameters) throws SQLException, ClassNotFoundException
 	{
 		try
 		{
 			if (!man.connected())
 				man.connect();
 			
-			Statement stmt = man.connection().createStatement();
+			PreparedStatement stmt = man.connection().prepareStatement(statement);
+			
 			return stmt.executeQuery(statement);
 		} catch (Exception ex) {
 			man.close();

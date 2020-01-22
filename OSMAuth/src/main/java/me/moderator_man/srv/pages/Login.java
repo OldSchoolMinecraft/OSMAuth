@@ -1,5 +1,6 @@
 package me.moderator_man.srv.pages;
 
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.Map;
 
@@ -28,7 +29,11 @@ public class Login extends Page
 		
 		try
 		{
-			ResultSet res = Main.database.query(String.format("SELECT * FROM user WHERE username = '%s'", username));
+			PreparedStatement stmt = Main.database.grabConnection().prepareStatement("SELECT * FROM user WHERE username = ?");
+			stmt.setString(1, username);
+			ResultSet res = stmt.executeQuery();
+			
+			//ResultSet res = Main.database.query("SELECT * FROM user WHERE username = ?", username);
 			
 			if (res == null)
 			{
