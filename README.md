@@ -9,7 +9,7 @@ We don't offer any kind of support if you are unable to get it working.
 
 First, you need to setup a database and table that at least contains the columns 'username' and 'password'.
 The passwords must be hashed using the SHA256 algorithm.
-The table MUST be named "account", because of an oversight in the coding of this software. This might be addressed in the future.
+The table MUST be named "user", because of an oversight in the coding of this software. This might be addressed in the future.
 
 The only other step is to configure the database connection in the config.
 
