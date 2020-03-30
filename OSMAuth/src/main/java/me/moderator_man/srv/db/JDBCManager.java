@@ -22,7 +22,8 @@ public class JDBCManager
 		{
 			dataSource.getConnection();
 		} catch (Exception ex) {
-			System.out.println("Failed to connect to database!");
+			System.out.println(String.format("Failed to establish connection with database (%s@%s)", username, hostname));
+			System.exit(1);
 		}
 	}
 	

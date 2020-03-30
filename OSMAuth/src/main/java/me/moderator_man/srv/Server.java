@@ -8,7 +8,10 @@ import me.moderator_man.srv.pages.JoinServer;
 import me.moderator_man.srv.pages.Login;
 import me.moderator_man.srv.pages.Page;
 import me.moderator_man.srv.pages.PageManager;
+import me.moderator_man.srv.pages.tracker.SubmitPresence;
+import me.moderator_man.srv.pages.tracker.TrackedPlayers;
 import me.moderator_man.srv.session.SessionManager;
+import me.moderator_man.srv.tracking.PlayerTracker;
 
 public class Server extends NanoHTTPD
 {
@@ -16,6 +19,7 @@ public class Server extends NanoHTTPD
 	
 	private PageManager pm;
 	private static SessionManager sm;
+	private static PlayerTracker pt;
 	
 	public Server()
 	{
@@ -23,10 +27,14 @@ public class Server extends NanoHTTPD
 		
 		pm = new PageManager();
 		sm = new SessionManager();
+		pt = new PlayerTracker();
 		
 		pm.register("/login", new Login());
 		pm.register("/joinserver", new JoinServer());
 		pm.register("/checkserver", new CheckServer());
+		
+		pm.register("/tracker/submit_presence", new SubmitPresence());
+		pm.register("/tracker/tracked_players", new TrackedPlayers());
 	}
 	
 	@Override
@@ -58,5 +66,10 @@ public class Server extends NanoHTTPD
 	public static SessionManager getSessionManager()
 	{
 		return sm;
+	}
+	
+	public static PlayerTracker getPlayerTracker()
+	{
+		return pt;
 	}
 }

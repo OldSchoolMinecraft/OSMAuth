@@ -19,13 +19,13 @@ public class Main
 			try
 			{
 				database.connect();
-				System.out.println("Connected to database successfully!");
+				log("Connected to database successfully!");
 			} catch (SQLException ex) {
-				System.out.println("Database failed to connect!");
+				log("Database failed to connect!");
 				System.exit(1);
 				return;
 			} catch (ClassNotFoundException ex) {
-				System.out.println("Database driver not found!");
+				log("Database driver not found!");
 				System.exit(1);
 				return;
 			}
@@ -33,9 +33,14 @@ public class Main
 			Server server = new Server();
 			server.start(NanoHTTPD.SOCKET_READ_TIMEOUT, false);
 			
-			System.out.println("Server successfully started!");
+			log("Server successfully started!");
 		} catch (Exception ex) {
 			ex.printStackTrace();
 		}
+	}
+	
+	private static void log(String msg)
+	{
+		System.out.println("[SYSTEM] " + msg);
 	}
 }

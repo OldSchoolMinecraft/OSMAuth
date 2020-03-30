@@ -50,6 +50,8 @@ public class Login extends Page
 				
 				if (banned)
 				{
+					log(String.format("Player '%s' tried to login, but was banned", username));
+					
 					JSONObject obj = new JSONObject();
 					obj.put("error", "Your account is banned!");
 					return NanoHTTPD.newFixedLengthResponse(obj.toString());
@@ -57,12 +59,16 @@ public class Login extends Page
 				
 				if (username.equalsIgnoreCase(dbu) && password.equalsIgnoreCase(dbp))
 				{
+					log(String.format("Player '%s' successfully logged in", username));
+					
 					JSONObject obj = new JSONObject();
 					Session session = Server.getSessionManager().createSession(username);
 					obj.put("username", session.username);
 					obj.put("sessionId", session.sessionId);
 					return NanoHTTPD.newFixedLengthResponse(obj.toString());
 				} else {
+					log(String.format("Player '%s' tried to login, but used an invalid password", username));
+					
 					JSONObject obj = new JSONObject();
 					obj.put("error", "Invalid username or password");
 					return NanoHTTPD.newFixedLengthResponse(obj.toString());
@@ -78,5 +84,10 @@ public class Login extends Page
 			ex.printStackTrace();
 			return NanoHTTPD.newFixedLengthResponse(obj.toString());
 		}
+	}
+	
+	private void log(String msg)
+	{
+		System.out.println("[AUTH] " + msg);
 	}
 }

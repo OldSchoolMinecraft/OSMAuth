@@ -13,6 +13,7 @@ public class Config
 	public String username;
 	public String password;
 	public String database;
+	public String tracker_key;
 	
 	private Properties properties;
 	
@@ -28,10 +29,11 @@ public class Config
 			properties.load(new FileInputStream("osmauth.cfg"));
 			
 			hostname = properties.getProperty("hostname", "localhost");
-			port = Integer.parseInt(properties.getProperty("port", "25565"));
-			username = properties.getProperty("username", "root");
-			password = properties.getProperty("password", "");
-			database = properties.getProperty("database", "");
+			port = Integer.parseInt(properties.getProperty("port", "8080"));
+			username = properties.getProperty("username", "gronk");
+			password = properties.getProperty("password", "boink");
+			database = properties.getProperty("database", "yeet");
+			tracker_key = properties.getProperty("tracker_key", "yote");
 		} catch (NumberFormatException ex) {
 			System.out.println("port must be set to an integer in the config!");
 		} catch (Exception ex) {
