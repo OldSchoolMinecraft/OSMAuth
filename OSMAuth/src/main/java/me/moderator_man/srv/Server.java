@@ -54,13 +54,17 @@ public class Server extends NanoHTTPD
 		{
 			JSONObject obj = new JSONObject();
 			obj.put("error", "Request method must be GET");
-			return NanoHTTPD.newFixedLengthResponse(obj.toString());
+			return NanoHTTPD.newFixedLengthResponse(Response.Status.BAD_REQUEST, "application/json", obj.toString());
 		}
 		
 		Page page = pm.getPage(uri);
 		if (page != null)
 			return page.exec(session.getParms());
-		return NanoHTTPD.newFixedLengthResponse("bad request");
+		return NanoHTTPD.newFixedLengthResponse(
+				Response.Status.BAD_REQUEST,
+				"application/json",
+				new JSONObject().put("error", "Bad Request").toString()
+		);
 	}
 	
 	public static SessionManager getSessionManager()

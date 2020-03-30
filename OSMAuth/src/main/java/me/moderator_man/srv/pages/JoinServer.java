@@ -18,7 +18,7 @@ public class JoinServer extends Page
 		{
 			JSONObject obj = new JSONObject();
 			obj.put("error", "Missing parameters");
-			return NanoHTTPD.newFixedLengthResponse(obj.toString());
+			return NanoHTTPD.newFixedLengthResponse(Response.Status.BAD_REQUEST, "application/json", obj.toString());
 		}
 		
 		String username = params.get("username");
@@ -31,12 +31,12 @@ public class JoinServer extends Page
 			new ThreadInvalidateSession(username, true, 3).start();
 			
 			JSONObject obj = new JSONObject();
-			obj.put("response", "ok");
-			return NanoHTTPD.newFixedLengthResponse(obj.toString());
+			obj.put("response", "OK");
+			return NanoHTTPD.newFixedLengthResponse(Response.Status.OK, "application/json", obj.toString());
 		} else {
 			JSONObject obj = new JSONObject();
 			obj.put("error", "Invalid session");
-			return NanoHTTPD.newFixedLengthResponse(obj.toString());
+			return NanoHTTPD.newFixedLengthResponse(Response.Status.BAD_REQUEST, "application/json", obj.toString());
 		}
 	}
 }
