@@ -17,11 +17,18 @@ public class JDBCManager
 		dataSource.setUser(username);
 		dataSource.setPassword(password);
 		dataSource.setServerName(hostname);
-		
+
+		try {
+			dataSource.setServerTimezone("CST");
+		} catch (SQLException ex) {
+			ex.printStackTrace();
+		}
+
 		try
 		{
 			dataSource.getConnection();
 		} catch (Exception ex) {
+			ex.printStackTrace();
 			System.out.println(String.format("Failed to establish connection with database (%s@%s)", username, hostname));
 			System.exit(1);
 		}
