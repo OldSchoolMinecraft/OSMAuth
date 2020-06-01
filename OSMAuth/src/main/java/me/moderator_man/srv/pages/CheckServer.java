@@ -17,7 +17,7 @@ public class CheckServer extends Page
 		{
 			JSONObject obj = new JSONObject();
 			obj.put("error", "Missing parameters");
-			return NanoHTTPD.newFixedLengthResponse(Response.Status.BAD_REQUEST, "application/json", obj.toString());
+			return NanoHTTPD.newFixedLengthResponse(obj.toString());
 		}
 		
 		String username = params.get("username");
@@ -28,10 +28,10 @@ public class CheckServer extends Page
 		if (Server.getSessionManager().checkServer(username, serverHash))
 		{
 			obj.put("response", "YES");
-			return NanoHTTPD.newFixedLengthResponse(Response.Status.OK, "application/json", obj.toString());
+			return NanoHTTPD.newFixedLengthResponse(obj.toString());
 		} else {
 			obj.put("response", "NO");
-			return NanoHTTPD.newFixedLengthResponse(Response.Status.BAD_REQUEST, "application/json", obj.toString());
+			return NanoHTTPD.newFixedLengthResponse(obj.toString());
 		}
 	}
 }

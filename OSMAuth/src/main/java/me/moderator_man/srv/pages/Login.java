@@ -21,7 +21,7 @@ public class Login extends Page
 		{
 			JSONObject obj = new JSONObject();
 			obj.put("error", "Missing parameters");
-			return NanoHTTPD.newFixedLengthResponse(Response.Status.BAD_REQUEST, "application/json", obj.toString());
+			return NanoHTTPD.newFixedLengthResponse(obj.toString());
 		}
 		
 		String username = params.get("username");
@@ -39,7 +39,7 @@ public class Login extends Page
 			{
 				JSONObject obj = new JSONObject();
 				obj.put("error", "No database connection");
-				return NanoHTTPD.newFixedLengthResponse(Response.Status.INTERNAL_ERROR, "application/json", obj.toString());
+				return NanoHTTPD.newFixedLengthResponse(obj.toString());
 			}
 			
 			if (res.next())
@@ -54,7 +54,7 @@ public class Login extends Page
 					
 					JSONObject obj = new JSONObject();
 					obj.put("error", "Your account is banned!");
-					return NanoHTTPD.newFixedLengthResponse(Response.Status.FORBIDDEN, "application/json", obj.toString());
+					return NanoHTTPD.newFixedLengthResponse(obj.toString());
 				}
 
 				if (username.equalsIgnoreCase(dbu) && password.equalsIgnoreCase(dbp))
@@ -65,24 +65,24 @@ public class Login extends Page
 					Session session = Server.getSessionManager().createSession(username);
 					obj.put("username", session.username);
 					obj.put("sessionId", session.sessionId);
-					return NanoHTTPD.newFixedLengthResponse(Response.Status.OK, "application/json", obj.toString());
+					return NanoHTTPD.newFixedLengthResponse(obj.toString());
 				} else {
 					log(String.format("Player '%s' tried to login, but used an invalid password", username));
 					
 					JSONObject obj = new JSONObject();
 					obj.put("error", "Invalid username or password");
-					return NanoHTTPD.newFixedLengthResponse(Response.Status.BAD_REQUEST, "application/json", obj.toString());
+					return NanoHTTPD.newFixedLengthResponse(obj.toString());
 				}
 			} else {
 				JSONObject obj = new JSONObject();
 				obj.put("error", "Invalid username or password!");
-				return NanoHTTPD.newFixedLengthResponse(Response.Status.BAD_REQUEST, "application/json", obj.toString());
+				return NanoHTTPD.newFixedLengthResponse(obj.toString());
 			}
 		} catch (Exception ex) {
 			JSONObject obj = new JSONObject();
 			obj.put("error", "An unknown error occurred!");
 			ex.printStackTrace();
-			return NanoHTTPD.newFixedLengthResponse(Response.Status.INTERNAL_ERROR, "application/json", obj.toString());
+			return NanoHTTPD.newFixedLengthResponse(obj.toString());
 		}
 	}
 	

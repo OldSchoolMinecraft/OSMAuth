@@ -8,10 +8,10 @@ import me.moderator_man.srv.pages.JoinServer;
 import me.moderator_man.srv.pages.Login;
 import me.moderator_man.srv.pages.Page;
 import me.moderator_man.srv.pages.PageManager;
-import me.moderator_man.srv.pages.tracker.SubmitPresence;
-import me.moderator_man.srv.pages.tracker.TrackedPlayers;
+import me.moderator_man.srv.pages.v2.CheckServer2;
+import me.moderator_man.srv.pages.v2.JoinServer2;
 import me.moderator_man.srv.session.SessionManager;
-import me.moderator_man.srv.tracking.PlayerTracker;
+import me.moderator_man.srv.session.v2.SessionManager2;
 
 public class Server extends NanoHTTPD
 {
@@ -19,7 +19,7 @@ public class Server extends NanoHTTPD
 	
 	private PageManager pm;
 	private static SessionManager sm;
-	private static PlayerTracker pt;
+	private static SessionManager2 smv2;
 	
 	public Server()
 	{
@@ -27,14 +27,14 @@ public class Server extends NanoHTTPD
 		
 		pm = new PageManager();
 		sm = new SessionManager();
-		pt = new PlayerTracker();
+		smv2 = new SessionManager2();
 		
 		pm.register("/login", new Login());
 		pm.register("/joinserver", new JoinServer());
 		pm.register("/checkserver", new CheckServer());
 		
-		pm.register("/tracker/submit_presence", new SubmitPresence());
-		pm.register("/tracker/tracked_players", new TrackedPlayers());
+		pm.register("/v2/joinserver", new JoinServer2());
+		pm.register("/v2/checkserver", new CheckServer2());
 	}
 	
 	@Override
@@ -48,23 +48,18 @@ public class Server extends NanoHTTPD
 	{
 		Method method = session.getMethod();
 		String uri = session.getUri();
-		//log.info(String.format("%s '%s'", method, uri));
 		
 		if (method != Method.GET)
 		{
 			JSONObject obj = new JSONObject();
 			obj.put("error", "Request method must be GET");
-			return NanoHTTPD.newFixedLengthResponse(Response.Status.BAD_REQUEST, "application/json", obj.toString());
+			return NanoHTTPD.newFixedLengthResponse(obj.toString());
 		}
 		
 		Page page = pm.getPage(uri);
 		if (page != null)
 			return page.exec(session.getParms());
-		return NanoHTTPD.newFixedLengthResponse(
-				Response.Status.BAD_REQUEST,
-				"application/json",
-				new JSONObject().put("error", "Bad Request").toString()
-		);
+		return NanoHTTPD.newFixedLengthResponse("bad request");
 	}
 	
 	public static SessionManager getSessionManager()
@@ -72,8 +67,8 @@ public class Server extends NanoHTTPD
 		return sm;
 	}
 	
-	public static PlayerTracker getPlayerTracker()
+	public static SessionManager2 getSessionManager2()
 	{
-		return pt;
+	    return smv2;
 	}
 }
