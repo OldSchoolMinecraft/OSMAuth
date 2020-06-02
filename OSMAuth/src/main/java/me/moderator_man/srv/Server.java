@@ -10,6 +10,7 @@ import me.moderator_man.srv.pages.Page;
 import me.moderator_man.srv.pages.PageManager;
 import me.moderator_man.srv.pages.v2.CheckServer2;
 import me.moderator_man.srv.pages.v2.JoinServer2;
+import me.moderator_man.srv.pages.v2.Login2;
 import me.moderator_man.srv.session.SessionManager;
 import me.moderator_man.srv.session.v2.SessionManager2;
 
@@ -33,6 +34,7 @@ public class Server extends NanoHTTPD
 		pm.register("/joinserver", new JoinServer());
 		pm.register("/checkserver", new CheckServer());
 		
+		pm.register("/v2/login", new Login2());
 		pm.register("/v2/joinserver", new JoinServer2());
 		pm.register("/v2/checkserver", new CheckServer2());
 	}

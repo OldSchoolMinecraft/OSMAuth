@@ -88,6 +88,6 @@ public class Login extends Page
 	
 	private void log(String msg)
 	{
-		System.out.println("[AUTH] " + msg);
+		System.out.println("[LEGACY AUTH] " + msg);
 	}
 }

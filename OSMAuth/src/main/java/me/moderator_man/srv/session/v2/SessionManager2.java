@@ -31,7 +31,7 @@ public class SessionManager2
 			sessions.remove(username);
 	}
 	
-	public boolean joinServer(String username, String sessionId, String serverHash)
+	public boolean joinServer(String username, String sessionId, String ip)
 	{
 		try
 		{
@@ -46,7 +46,7 @@ public class SessionManager2
 				return false;
 			}
 				
-			session.ip = serverHash;
+			session.ip = ip;
 			return true;
 		} catch (NullPointerException ex) {
 			ex.printStackTrace();
@@ -54,7 +54,7 @@ public class SessionManager2
 		}
 	}
 	
-	public boolean checkServer(String username, String serverHash)
+	public boolean checkServer(String username, String ip)
 	{
 		try
 		{
@@ -69,7 +69,7 @@ public class SessionManager2
 			} else if (session.ip == null) {
 				return false;
 			}
-			boolean flag = session.ip.equals(serverHash);
+			boolean flag = session.ip.equals(ip);
 			return flag;
 		} catch (NullPointerException ex) {
 			ex.printStackTrace();

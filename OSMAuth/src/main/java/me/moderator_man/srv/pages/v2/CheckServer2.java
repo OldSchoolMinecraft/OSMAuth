@@ -25,7 +25,7 @@ public class CheckServer2 extends Page
 
         JSONObject obj = new JSONObject();
 
-        if (Server.getSessionManager().checkServer(username, ip))
+        if (Server.getSessionManager2().checkServer(username, ip))
         {
             obj.put("response", "YES");
             return NanoHTTPD.newFixedLengthResponse(obj.toString());
